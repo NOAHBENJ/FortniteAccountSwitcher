@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FortniteAccountSwitcher", "FortniteAccountSwitcher\FortniteAccountSwitcher.csproj", "{0A2C4F6A-85D7-45ED-B490-7AD5D7515E09}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0A2C4F6A-85D7-45ED-B490-7AD5D7515E09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A2C4F6A-85D7-45ED-B490-7AD5D7515E09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A2C4F6A-85D7-45ED-B490-7AD5D7515E09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A2C4F6A-85D7-45ED-B490-7AD5D7515E09}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D27D2644-5D3F-46C2-87B8-27332B6F93CF}
+	EndGlobalSection
+EndGlobal
