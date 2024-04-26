@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Diagnostics;
+using FortniteAccountSwitcher;
 
-namespace FortniteAccountSwitcher
-{
+namespace FortniteAccountSwitcher { 
     public partial class Form1 : Form
     {
         private List<Account> accounts = new List<Account>();
@@ -54,22 +54,19 @@ namespace FortniteAccountSwitcher
 
         private void btnAddAccount_Click(object sender, EventArgs e)
         {
-            // Show a dialog to get the authentication code from the user
-            string authCode = ShowAuthCodeInputDialog();
-            if (!string.IsNullOrEmpty(authCode))
+            using (var form2 = new Form2())
             {
-                // Add the new account to the list
-                Account newAccount = new Account { Username = "NewAccountName", AuthCode = authCode };
-                accounts.Add(newAccount);
-                SaveAccounts();
+                if (form2.ShowDialog() == DialogResult.OK)
+                {
+                    string authCode = form2.AuthCode;
+                    if (!string.IsNullOrEmpty(authCode))
+                    {
+                        Account newAccount = new Account { Username = "NewAccountName", AuthCode = authCode };
+                        accounts.Add(newAccount);
+                        SaveAccounts();
+                    }
+                }
             }
-        }
-
-        private string ShowAuthCodeInputDialog()
-        {
-            // Implement a dialog to get the authentication code from the user
-            // Return the entered code or null if canceled
-            return null;
         }
     }
 
