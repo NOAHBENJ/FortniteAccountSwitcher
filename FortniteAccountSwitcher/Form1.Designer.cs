@@ -1,4 +1,4 @@
-﻿namespace FortniteAccountSwitcher
+namespace FortniteAccountSwitcher
 {
     partial class Form1
     {
@@ -149,6 +149,4 @@
         private System.Windows.Forms.Button btnAddAccount;
         private System.Windows.Forms.ListBox accountsListBox;
     }
-
-
 }
