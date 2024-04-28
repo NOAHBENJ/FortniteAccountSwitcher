@@ -1,4 +1,4 @@
-namespace FortniteAccountSwitcher
+﻿namespace FortniteAccountSwitcher
 {
     partial class Form2
     {
