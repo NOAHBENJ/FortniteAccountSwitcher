@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Text.Json;
@@ -73,7 +73,7 @@ namespace FortniteAccountSwitcher
                     using (var reader = new StreamReader(ex.Response.GetResponseStream()))
                     {
                         string errorResponse = reader.ReadToEnd();
-                        MessageBox.Show(errorResponse);
+                        MessageBox.Show("MakeInitialRequest - Function 1" + errorResponse);
                     }
                     return ex.Message;
                 }
@@ -112,7 +112,7 @@ namespace FortniteAccountSwitcher
                     using (var reader = new StreamReader(ex.Response.GetResponseStream()))
                     {
                         string errorResponse = reader.ReadToEnd();
-                        MessageBox.Show(errorResponse);
+                        MessageBox.Show("GenerateDeviceAuth - Function 2" + errorResponse);
                     }
                     return ex.Message;
                 }
@@ -124,8 +124,8 @@ namespace FortniteAccountSwitcher
         {
             //string clientId = "3f69e56c7649492c8cc29f1af08a8a12";
             //string clientSecret = "b51ee9cb12234f50a69efa67ef53812e";
-            string clientId = "3446cd72694c4a4485d81b77adbb2141";
-            string clientSecret = "9209d4a5e25a457fb9b07489d313b41a";
+            string clientId = "34a02cf8f4414e29b15921876da36f9a";
+            string clientSecret = "daafbccc737745039dffe53d94fc76cf";
             string credentials = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{clientId}:{clientSecret}"));
             string requestBody = $"grant_type=device_auth&account_id={accountId}&device_id={device_id}&secret={secret}";
             using (WebClient client = new WebClient())
@@ -138,7 +138,7 @@ namespace FortniteAccountSwitcher
                     using (var reader = new StreamReader(ex.Response.GetResponseStream()))
                     {
                         string errorResponse = reader.ReadToEnd();
-                        MessageBox.Show(errorResponse);
+                        MessageBox.Show("GetAuthTokenFromDeviceSecret - Function 3" + errorResponse);
                     }
                     return ex.Message; 
                 }
