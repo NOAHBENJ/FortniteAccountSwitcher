@@ -16,6 +16,10 @@ namespace FortniteAccountSwitcher
 {
     public partial class Form2 : Form
     {
+
+        public string clientID = "34a02cf8f4414e29b15921876da36f9a";
+        public string clientSecret = "daafbccc737745039dffe53d94fc76cf";
+
         public string AuthCode { get; private set; }
 
         public Form2()
@@ -47,8 +51,9 @@ namespace FortniteAccountSwitcher
         private string MakeInitialRequest(string auth_code)
         {
             // Your client ID and secret
-            string clientId = "3446cd72694c4a4485d81b77adbb2141";
-            string clientSecret = "9209d4a5e25a457fb9b07489d313b41a";
+            string clientId = this.clientID;
+            string clientSecret = this.clientSecret;
+            MessageBox.Show("MakeInitialRequest - Function 0" + clientId + " " + clientSecret);
 
             // The authorization code you received
             string authorizationCode = auth_code;
@@ -124,8 +129,8 @@ namespace FortniteAccountSwitcher
         {
             //string clientId = "3f69e56c7649492c8cc29f1af08a8a12";
             //string clientSecret = "b51ee9cb12234f50a69efa67ef53812e";
-            string clientId = "34a02cf8f4414e29b15921876da36f9a";
-            string clientSecret = "daafbccc737745039dffe53d94fc76cf";
+            string clientId = this.clientID;
+            string clientSecret = this.clientSecret;
             string credentials = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{clientId}:{clientSecret}"));
             string requestBody = $"grant_type=device_auth&account_id={accountId}&device_id={device_id}&secret={secret}";
             using (WebClient client = new WebClient())
