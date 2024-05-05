@@ -31,6 +31,8 @@
             this.linkGoogle = new System.Windows.Forms.LinkLabel();
             this.label1 = new System.Windows.Forms.Label();
             this.txtAuthCode = new System.Windows.Forms.TextBox();
+            this.txtAccountID = "";
+            this.txtUsername = "";
             this.btnOk = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -93,5 +95,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtAuthCode;
         private System.Windows.Forms.Button btnOk;
+        public string txtUsername;
+        public string txtAccountID;
     }
 }

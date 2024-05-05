@@ -104,6 +104,7 @@
             this.btnRemoveAccount.TabIndex = 2;
             this.btnRemoveAccount.Text = "Remove";
             this.btnRemoveAccount.UseVisualStyleBackColor = true;
+            this.btnRemoveAccount.Click += new System.EventHandler(this.btnRemoveAccount_Click);
             // 
             // btnAddAccount
             // 

@@ -2,13 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Diagnostics;
+using Newtonsoft.Json;
 using FortniteAccountSwitcher;
 
 namespace FortniteAccountSwitcher { 
     public partial class Form1 : Form
     {
-        private List<Account> accounts = new List<Account>();
+        
         private Account selectedAccount;
+        public string accountsJsonLocation = @"C:\Users\Noah\Desktop\accounts.json";
 
         public Form1()
         {
@@ -16,12 +18,22 @@ namespace FortniteAccountSwitcher {
             LoadAccounts();
         }
 
+        private List<Account> accounts = new List<Account>();
+
         private void LoadAccounts()
         {
-            // Load accounts from a file or database
-            // Example:
-            // accounts.Add(new Account { Username = "AccountName1", AuthCode = "AuthCode1" });
-            // accounts.Add(new Account { Username = "AccountName2", AuthCode = "AuthCode2" });
+            if (File.Exists(accountsJsonLocation))
+            {
+                string json = File.ReadAllText(accountsJsonLocation);
+                accounts = JsonConvert.DeserializeObject<List<Account>>(json);
+                accountsListBox.Items.Clear();
+                accountListBox.Items.Clear();
+                foreach (Account account in accounts)
+                {
+                    accountsListBox.Items.Add(account.Username);
+                    accountListBox.Items.Add(account.Username);
+                }
+            }
         }
 
         private void SaveAccounts()
@@ -33,9 +45,10 @@ namespace FortniteAccountSwitcher {
         {
             if (selectedAccount != null)
             {
-                string authCode = selectedAccount.AuthCode;
-                string arguments = $"-AUTH_LOGIN=unused -obfuscationid=fEHVr69mPbH-q7R4-UWdH4pTzY_xLA -AUTH_PASSWORD={authCode} -AUTH_TYPE=exchangecode -epicapp=Fortnite -EpicPortal";
-                Process.Start(@"C:\Program Files\Epic Games\Fortnite\FortniteGame\Binaries\Win64\FortniteLauncher.exe", arguments);
+                string selectedUsername = accountListBox.SelectedItem.ToString();
+                Account accountToRun = accounts.Find(a => a.Username == selectedUsername);
+                var form2 = new Form2();
+                string status = form2.launch(accountToRun.AccountId, @"C:\Users\Noah\Desktop\" + accountToRun.AccountId + ".json");
             }
             else
             {
@@ -58,14 +71,40 @@ namespace FortniteAccountSwitcher {
             {
                 if (form2.ShowDialog() == DialogResult.OK)
                 {
-                    string authCode = form2.AuthCode;
-                    if (!string.IsNullOrEmpty(authCode))
+                    if (form2.txtUsername != null && form2.txtAccountID != null)
                     {
-                        Account newAccount = new Account { Username = "NewAccountName", AuthCode = authCode };
+                        Account newAccount = new Account { Username = form2.txtUsername, AccountId = form2.txtAccountID };
+                        string json = File.ReadAllText(accountsJsonLocation);
+                        accounts = JsonConvert.DeserializeObject<List<Account>>(json);
+                        foreach (Account account in accounts)
+                        {
+                            if (account.Username == newAccount.Username)
+                            {
+                                MessageBox.Show("Account already exists.");
+                                return;
+                            }
+                        }
                         accounts.Add(newAccount);
-                        SaveAccounts();
+                        json = JsonConvert.SerializeObject(accounts);
+                        File.WriteAllText(accountsJsonLocation, json);
+                        LoadAccounts();
                     }
                 }
+            }
+        }
+
+        private void btnRemoveAccount_Click(object sender, EventArgs e)
+        {
+            if (accountsListBox.SelectedItem != null)
+            {
+                string selectedUsername = accountsListBox.SelectedItem.ToString();
+                Account accountToRemove = accounts.Find(a => a.Username == selectedUsername);
+                accounts.Remove(accountToRemove);
+                string json = JsonConvert.SerializeObject(accounts);
+                File.WriteAllText(accountsJsonLocation, json);
+                accountsListBox.Items.Remove(selectedUsername);
+                accountListBox.Items.Remove(selectedUsername);
+                LoadAccounts();
             }
         }
     }
@@ -73,6 +112,6 @@ namespace FortniteAccountSwitcher {
     public class Account
     {
         public string Username { get; set; }
-        public string AuthCode { get; set; }
+        public string AccountId { get; set; }
     }
 }
