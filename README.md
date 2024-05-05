@@ -7,7 +7,7 @@ so uhh this works i think hopefully (please dont read the commends the api makes
  - This is not a virus, its **open-source**, feel free to compile yourself, you just need Newtonsoft.JSON, its all there for you.
 
 huge thanks to the following:
- - SuperSonicNinja (discord)
+ - SuperSonicNinja ([His GitHub](https://github.com/super-sonic-ninja))
  - 66.fnc (discord)
  - Github Copilot 
 
