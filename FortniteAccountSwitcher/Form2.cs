@@ -69,38 +69,7 @@ namespace FortniteAccountSwitcher
 
             // INFO: Writes the JSON response to a file
             result = JsonConvert.SerializeObject(deserialisedResult, Newtonsoft.Json.Formatting.Indented);
-            File.WriteAllText(@"C:\Users\Noah\Desktop\" + account_id + ".json", result);
-
-            /* INFO: Gets the bearer token from the device_id and secret
-            string bearerTokenResponse = GenerateBearerToken(account_id, devIDSecret.Split(":")[0], devIDSecret.Split(":")[1], "MzQ0NmNkNzI2OTRjNGE0NDg1ZDgxYjc3YWRiYjIxNDE6OTIwOWQ0YTVlMjVhNDU3ZmI5YjA3NDg5ZDMxM2I0MWE=");
-            JObject deserialisedBearerResult = JObject.Parse(bearerTokenResponse);
-            string bearerToken = (string)deserialisedBearerResult["access_token"];
-
-            // INFO: Gets an Exchange Code from the bearer token for fortniteIOSGameClient
-            string lastIOSExchangeCodeResult = GenerateExchangeCode(bearerToken, "ec684b8c687f479fadea3cb2ad83f5c6"); // PC Client ID, CONSUMING so please dont hurt yourself by thinking too hard again noah
-            JObject deserialised_LIOSEC_Result = JObject.Parse(lastIOSExchangeCodeResult);
-            string lastIOSExchangeCode = (string)deserialised_LIOSEC_Result["code"];
-
-            // INFO: Converts the fortniteIOSGameClient into a bearer token for fortnitePCGameClient despite everyone saying that only launcherAppClient2 can do it but idk this works so if it aint broke don't fix it? Epic API is fragile enough as it is
-            string lastBearerTokenResponse = GetBearerUsingAnExchangeCodeBecauseOfCourseItsSomethingDifferentKillMeNowThankYouKindly_IAmSlowlyLosingItWithThisFuckingAPI(lastIOSExchangeCode, "ZWM2ODRiOGM2ODdmNDc5ZmFkZWEzY2IyYWQ4M2Y1YzY6ZTFmMzFjMjExZjI4NDEzMTg2MjYyZDM3YTEzZmM4NGQ=");
-            JObject deserialised_LBTR_Result = JObject.Parse(lastBearerTokenResponse);
-            string lastBearerToken = (string)deserialised_LBTR_Result["access_token"];
-
-            // INFO: Gets an Exchange Code from the bearer token for fortnitePCGameClient which can log into game - now we just gotta turn this into a login code somehow but idk fuck me in the ass this was hard please help me my brain is dying
-            string loginExchangeCodeResponse = GenerateExchangeCode(lastBearerToken, "ec684b8c687f479fadea3cb2ad83f5c6"); // PC Client ID, CONSUMING so please dont hurt yourself by thinking too hard again noah
-            JObject deserialised_LECR_Result = JObject.Parse(loginExchangeCodeResponse);
-            string loginExchangeCode = (string)deserialised_LECR_Result["code"];
-
-            MessageBox.Show(loginExchangeCode + " (its been written to a file in full form with your account_id)");
-            string toPutInFileForLogin = $"start /d \"C:\\Program Files\\Epic Games\\Fortnite\\FortniteGame\\Binaries\\Win64\" FortniteLauncher.exe -AUTH_LOGIN=unused -AUTH_PASSWORD={loginExchangeCode} -AUTH_TYPE=exchangecode -epicapp=Fortnite -epicenv=prod-fn -EpicPortal -epicuserid={account_id} ";
-            File.WriteAllText(@"C:\Users\Noah\Desktop\" + account_id + "-login.json", toPutInFileForLogin);
-
-            Process process = new Process();
-
-            process.StartInfo.FileName = "cmd.exe";
-            process.StartInfo.Arguments = $"start /d \"C:\\Program Files\\Epic Games\\Fortnite\\FortniteGame\\Binaries\\Win64\" FortniteLauncher.exe -AUTH_LOGIN=unused -AUTH_PASSWORD={loginExchangeCode} -AUTH_TYPE=exchangecode -epicapp=Fortnite -epicenv=prod-fn -EpicPortal -epicuserid={account_id} ";            
-            process.StartInfo.CreateNoWindow = true;
-            process.Start(); */
+            File.WriteAllText("./" + account_id + ".json", result);
 
             txtUsername = accountUsername;
             txtAccountID = account_id;
@@ -291,10 +260,6 @@ namespace FortniteAccountSwitcher
             string loginExchangeCodeResponse = GenerateExchangeCode(lastBearerToken, "ec684b8c687f479fadea3cb2ad83f5c6"); // PC Client ID, CONSUMING so please dont hurt yourself by thinking too hard again noah
             JObject deserialised_LECR_Result = JObject.Parse(loginExchangeCodeResponse);
             string loginExchangeCode = (string)deserialised_LECR_Result["code"];
-
-            //MessageBox.Show(loginExchangeCode + " (its been written to a file in full form with your account_id)");
-            //string toPutInFileForLogin = $"start /d \"C:\\Program Files\\Epic Games\\Fortnite\\FortniteGame\\Binaries\\Win64\" FortniteLauncher.exe -AUTH_LOGIN=unused -AUTH_PASSWORD={loginExchangeCode} -AUTH_TYPE=exchangecode -epicapp=Fortnite -epicenv=prod-fn -EpicPortal -epicuserid={account_id} ";
-            //File.WriteAllText(@"C:\Users\Noah\Desktop\" + account_id + "-login.json", toPutInFileForLogin);
 
             Process process = new Process();
 

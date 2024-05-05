@@ -10,7 +10,7 @@ namespace FortniteAccountSwitcher {
     {
         
         private Account selectedAccount;
-        public string accountsJsonLocation = @"C:\Users\Noah\Desktop\accounts.json";
+        public string accountsJsonLocation = "./accounts.json";
 
         public Form1()
         {
@@ -48,7 +48,7 @@ namespace FortniteAccountSwitcher {
                 string selectedUsername = accountListBox.SelectedItem.ToString();
                 Account accountToRun = accounts.Find(a => a.Username == selectedUsername);
                 var form2 = new Form2();
-                string status = form2.launch(accountToRun.AccountId, @"C:\Users\Noah\Desktop\" + accountToRun.AccountId + ".json");
+                string status = form2.launch(accountToRun.AccountId, "./" + accountToRun.AccountId + ".json");
             }
             else
             {
