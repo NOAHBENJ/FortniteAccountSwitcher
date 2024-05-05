@@ -12,11 +12,13 @@ huge thanks to the following:
  - Github Copilot 
 
 more features to come:
- - checking providor on run tab
- - cba to design so get fucked
+ - A button to check the Anti-Cheat provider (Be or EAC) your account is using, inside of the app.
  - providing an auth_code/exchange code for logging into other things maybe
  - allowing you to log into the epicgames website with a link like Wafer
  - a cool name
+
+less features to not come:
+ - a better design, I cannot be fucked, make a pull request with a fancy design if you feel inclined to
 
 Any concerns at all, feel free to open an Issue, I get an email every time you do so they will be checked and tended to.
 Also, feel free to add my Discord, @very.autistic 
