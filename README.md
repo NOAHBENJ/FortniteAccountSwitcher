@@ -13,3 +13,4 @@ more features to come:
  - cba to design so get fucked
  - providing an auth_code/exchange code for logging into other things maybe
  - allowing you to log into the epicgames website with a link like Wafer
+ - a cool name
