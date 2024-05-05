@@ -48,7 +48,8 @@ namespace FortniteAccountSwitcher
             result = JsonConvert.SerializeObject(deserialisedResult, Newtonsoft.Json.Formatting.Indented);
             File.WriteAllText(@"C:\Users\Noah\Desktop\" + account_id + ".json", result);
             MessageBox.Show("Account added successfully! Proof: " + GetAuthTokenFromDeviceSecret(account_id, devIDSecret.Split(":")[0], devIDSecret.Split(":")[1]));*/
-            //MessageBox.Show(GetAuthTokenFromDeviceSecret("9c3d1a627cfc49fcb12c60409cd12d5c", "8c500e3d63954982a56d9fc1f6db025a", "4OYPINVI5V4YL2R5QXI2H7NTRS4RA5KF"));
+            //MessageBox.Show(GetAuthTokenFromDeviceSecret("placeholderaccid", "placeholderdeviceid", "placeholdersecret"));
+            // next time dont leave account credentials inside of production
 
             // INFO: Gets Input of iOS Exchange Code, then gets the account_id and access_token from the code
             string auth_code = txtAuthCode.Text;
