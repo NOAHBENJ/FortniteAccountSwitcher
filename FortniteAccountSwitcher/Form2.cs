@@ -13,6 +13,7 @@ using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json.Linq;
 using System.Net.Sockets;
 using System.Text.Json.Nodes;
+using System.Security.Policy;
 
 namespace FortniteAccountSwitcher
 {
@@ -20,6 +21,7 @@ namespace FortniteAccountSwitcher
     {
         public string iOSClientID = "3446cd72694c4a4485d81b77adbb2141";
         public string iOSClientSecret = "9209d4a5e25a457fb9b07489d313b41a";
+
         public string AuthCode { get; private set; }
 
         public Form2()
@@ -28,7 +30,9 @@ namespace FortniteAccountSwitcher
         }
         private void linkGoogle_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("https://www.google.com");
+            string url = "https://www.epicgames.com/id/api/redirect?clientId=3446cd72694c4a4485d81b77adbb2141&responseType=code";
+            Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+            
         }
 
         private void btnOk_Click(object sender, EventArgs e)
@@ -69,12 +73,21 @@ namespace FortniteAccountSwitcher
             {
                 client.Headers.Add("Authorization", $"Basic {credentials}");
                 client.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
-                
+
                 string response;
                 try { response = client.UploadString("https://account-public-service-prod03.ol.epicgames.com/account/api/oauth/token", requestBody); }
-                catch (WebException ex) { MessageBox.Show("Invalid Auth Code - Make sure you use the link provided."); }
-                
-                string jsonString = JsonConvert.SerializeObject(JsonConvert.DeserializeObject(response), Newtonsoft.Json.Formatting.Indented);
+                catch (WebException ex) {
+                    using (var reader = new StreamReader(ex.Response.GetResponseStream()))
+                    {
+                        string errorResponse = reader.ReadToEnd();
+                        MessageBox.Show("MakeInitialRequest - Function 1" + errorResponse);
+                    }
+                    return ex.Message;
+                }
+                var responseObject = JsonConvert.DeserializeObject(response);
+                string jsonString = JsonConvert.SerializeObject(responseObject, Newtonsoft.Json.Formatting.Indented);
+
+                Console.WriteLine(jsonString);
                 return jsonString;
             }
             return null;
@@ -102,7 +115,7 @@ namespace FortniteAccountSwitcher
                     using (var reader = new StreamReader(ex.Response.GetResponseStream()))
                     {
                         string errorResponse = reader.ReadToEnd();
-                        MessageBox.Show("GenerateDeviceAuth - Function 2" + errorResponse); // If the above function worked, this should not be called - if it is im retarded
+                        MessageBox.Show("GenerateDeviceAuth - Function 2" + errorResponse);
                     }
                     return ex.Message;
                 }
@@ -190,6 +203,41 @@ namespace FortniteAccountSwitcher
             return "with mental help please i really need it this api is going to be the death of me";
         }
 
+        /*
+         
+        ** Functions that will be used elsewhere in the application for misc things, like checking anticheat, friend codes etc**
+         
+         */
+
+        // TODO: Check accounts provider for anticheat status
+        // TODO: The below function returns "Operation anticheat not valid", please fix with a valid api endpoint
+
+        public string CheckAntiCheat(string account_id, string bearerToken)
+        {
+            //i just dont know the url, if you do that would be helpful
+
+            /*using (WebClient client = new WebClient())
+            {
+                client.Headers.Add("Authorization", $"Bearer {bearerToken}");
+
+                string response;
+                try { response = client.DownloadString(url); }
+                catch (WebException ex)
+                {
+                    using (var reader = new StreamReader(ex.Response.GetResponseStream()))
+                    {
+                        string errorResponse = reader.ReadToEnd();
+                        MessageBox.Show("CheckAntiCheat - Function 5" + errorResponse);
+                    }
+                    return ex.Message;
+                }
+                return response; 
+            } */
+            return "i am so tired of this code please help me";
+        }
+
+
+        // nvm is needed and is pretty obvious what it does but i dont want to look at this code anymore so i will just leave it here and hope for the best
         public string launch(string account_id, string filePath) 
         {
             JObject fileDump = JObject.Parse(File.ReadAllText(filePath)); 
@@ -223,8 +271,7 @@ namespace FortniteAccountSwitcher
                     WorkingDirectory = @"C:\Windows\System32",
                     Arguments = $"/C start /d \"C:\\Program Files\\Epic Games\\Fortnite\\FortniteGame\\Binaries\\Win64\" FortniteLauncher.exe -AUTH_LOGIN=unused -AUTH_PASSWORD={loginExchangeCode} -AUTH_TYPE=exchangecode -epicapp=Fortnite -epicenv=prod-fn -EpicPortal -epicuserid={account_id} "
                 }
-            };
-            p.Start(); 
+            }; p.Start(); 
             return "launched ig?"; 
         }
     }
