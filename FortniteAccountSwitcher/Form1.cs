@@ -8,7 +8,6 @@ using FortniteAccountSwitcher;
 namespace FortniteAccountSwitcher { 
     public partial class Form1 : Form
     {
-        
         private Account selectedAccount;
         public string accountsJsonLocation = "./accounts.json";
 
@@ -35,12 +34,7 @@ namespace FortniteAccountSwitcher {
                 }
             }
         }
-
-        private void SaveAccounts()
-        {
-            // Save accounts to a file or database
-        }
-
+        
         private void btnRunFortnite_Click(object sender, EventArgs e)
         {
             if (selectedAccount != null)
