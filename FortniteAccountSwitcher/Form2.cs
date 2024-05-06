@@ -18,10 +18,8 @@ namespace FortniteAccountSwitcher
 {
     public partial class Form2 : Form
     {
-
         public string iOSClientID = "3446cd72694c4a4485d81b77adbb2141";
         public string iOSClientSecret = "9209d4a5e25a457fb9b07489d313b41a";
-
         public string AuthCode { get; private set; }
 
         public Form2()
@@ -35,29 +33,11 @@ namespace FortniteAccountSwitcher
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            /*AuthCode = txtAuthCode.Text;
-            string auth_code = txtAuthCode.Text;
-            string result = MakeInitialRequest(auth_code);
-            
-            JObject deserialisedResult = JObject.Parse(result);
-            string account_id = (string)deserialisedResult["account_id"];
-            
-            string devIDSecret = GenerateDeviceAuth(account_id, (string)deserialisedResult["access_token"]);
-            deserialisedResult.Add("device_id", devIDSecret.Split(":")[0]);
-            deserialisedResult.Add("secret", devIDSecret.Split(":")[1]);
-            result = JsonConvert.SerializeObject(deserialisedResult, Newtonsoft.Json.Formatting.Indented);
-            File.WriteAllText(@"C:\Users\Noah\Desktop\" + account_id + ".json", result);
-            MessageBox.Show("Account added successfully! Proof: " + GetAuthTokenFromDeviceSecret(account_id, devIDSecret.Split(":")[0], devIDSecret.Split(":")[1]));*/
-            //MessageBox.Show(GetAuthTokenFromDeviceSecret("placeholderaccid", "placeholderdeviceid", "placeholdersecret"));
-            // next time dont leave account credentials inside of production
-
             // INFO: Gets Input of iOS Exchange Code, then gets the account_id and access_token from the code
             string auth_code = txtAuthCode.Text;
             string result = GrabiOSAuthCode(auth_code);
 
             // INFO: Deserialises the JSON response and gets the account_id and access_token
-            //MessageBox.Show("MakeInitialRequest - Function 0" + result);
-
             JObject deserialisedResult = JObject.Parse(result);
             string account_id = (string)deserialisedResult["account_id"];
             string access_token = (string)deserialisedResult["access_token"];
@@ -79,46 +59,22 @@ namespace FortniteAccountSwitcher
 
         private string GrabiOSAuthCode(string auth_code)
         {
-            // Your client ID and secret
             string clientId = this.iOSClientID;
             string clientSecret = this.iOSClientSecret;
-            //MessageBox.Show("MakeInitialRequest - Function 0" + clientId + " " + clientSecret);
-
-            // The authorization code you received
             string authorizationCode = auth_code;
-
-            // Encode the client ID and secret
             string credentials = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{clientId}:{clientSecret}"));
-
-            // Prepare the request body
             string requestBody = $"grant_type=authorization_code&code={authorizationCode}&client_id={clientId}&client_secret={clientSecret}";
 
-            // Create a WebClient instance
             using (WebClient client = new WebClient())
             {
-                // Set the headers
                 client.Headers.Add("Authorization", $"Basic {credentials}");
                 client.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
-
-                // Make the POST request and get the response
+                
                 string response;
                 try { response = client.UploadString("https://account-public-service-prod03.ol.epicgames.com/account/api/oauth/token", requestBody); }
-                catch (WebException ex) {
-                    using (var reader = new StreamReader(ex.Response.GetResponseStream()))
-                    {
-                        string errorResponse = reader.ReadToEnd();
-                        MessageBox.Show("MakeInitialRequest - Function 1" + errorResponse);
-                    }
-                    return ex.Message;
-                }
-                //string response = client.UploadString("https://account-public-service-prod03.ol.epicgames.com/account/api/oauth/token", requestBody);
-
-                // Deserialize the JSON response
-                var responseObject = JsonConvert.DeserializeObject(response);
-                string jsonString = JsonConvert.SerializeObject(responseObject, Newtonsoft.Json.Formatting.Indented);
-
-                // Return the JSON string
-                Console.WriteLine(jsonString);
+                catch (WebException ex) { MessageBox.Show("Invalid Auth Code - Make sure you use the link provided."); }
+                
+                string jsonString = JsonConvert.SerializeObject(JsonConvert.DeserializeObject(response), Newtonsoft.Json.Formatting.Indented);
                 return jsonString;
             }
             return null;
@@ -146,7 +102,7 @@ namespace FortniteAccountSwitcher
                     using (var reader = new StreamReader(ex.Response.GetResponseStream()))
                     {
                         string errorResponse = reader.ReadToEnd();
-                        MessageBox.Show("GenerateDeviceAuth - Function 2" + errorResponse);
+                        MessageBox.Show("GenerateDeviceAuth - Function 2" + errorResponse); // If the above function worked, this should not be called - if it is im retarded
                     }
                     return ex.Message;
                 }
@@ -160,7 +116,6 @@ namespace FortniteAccountSwitcher
         {
             string url = "https://account-public-service-prod03.ol.epicgames.com/account/api/oauth/token";
             var requestBody = $"grant_type=device_auth&account_id={accountId}&device_id={deviceId}&secret={secret}";
-            //string userAgent = "Fortnite/++Fortnite+Release-21.00-CL-20463113 Windows/10";
 
             using (WebClient client = new WebClient())
             {
@@ -212,7 +167,6 @@ namespace FortniteAccountSwitcher
         {
             string url = "https://account-public-service-prod.ol.epicgames.com/account/api/oauth/token";
             var requestBody = $"grant_type=exchange_code&exchange_code={exchange_code}";
-            //string userAgent = "Fortnite/++Fortnite+Release-21.00-CL-20463113 Windows/10";
 
             using (WebClient client = new WebClient())
             {
@@ -236,7 +190,6 @@ namespace FortniteAccountSwitcher
             return "with mental help please i really need it this api is going to be the death of me";
         }
 
-        // not needed as of now but idk im leaving it here because i kinda need to idk i just do itll break otherwise despite the fact that it doesnt do anything useful and has 0 references
         public string launch(string account_id, string filePath) 
         {
             JObject fileDump = JObject.Parse(File.ReadAllText(filePath)); 
@@ -261,8 +214,6 @@ namespace FortniteAccountSwitcher
             string loginExchangeCodeResponse = GenerateExchangeCode(lastBearerToken, "ec684b8c687f479fadea3cb2ad83f5c6"); // PC Client ID, CONSUMING so please dont hurt yourself by thinking too hard again noah
             JObject deserialised_LECR_Result = JObject.Parse(loginExchangeCodeResponse);
             string loginExchangeCode = (string)deserialised_LECR_Result["code"];
-
-            Process process = new Process();
 
             var p = new Process
             {
